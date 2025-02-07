@@ -1,0 +1,41 @@
+import java.io.*;
+import java.util.Scanner;
+import java.text.DecimalFormat;
+
+public class ProductProcessor {
+  public static void main(String[] args) {
+    String inputFilePath = "data/products.csv";
+    String outputFilePath = "data/transformed_products.csv";
+
+    try (BufferedReader reader = new BufferedReader(new FileReader(inputFilePath))) {
+      String line;
+      StringBuilder output = new StringBuilder();
+      output.append("ProductID,Name,Price,Category,PriceRange\n");
+
+      reader.readLine();
+
+      while ((line = reader.readLine()) != null) {
+        String[] data = line.split(",");
+        String productId = data[0];
+        String productName = data[1].toUpperCase();
+        double price = Double.parseDouble(data[2]);
+        String category = data[3];
+
+        if (category.equals("Electronics")) {
+          price *= 0.9;
+          category = (price > 500) ? "Premium Electronics" : category;
+        }
+
+        String priceRange;
+        if (price <= 10) {
+          priceRange = "Low";
+        } else if (price <= 100) {
+          priceRange = "Medium";
+        } else if (price <= 500) {
+          priceRange = "High";
+        } else {
+            priceRange = "Premium";
+        }
+
+        DecimalFormat df = new DecimalFormat("#0.00");
+
