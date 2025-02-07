@@ -1,41 +1,69 @@
 import java.io.*;
-import java.util.Scanner;
 import java.text.DecimalFormat;
 
 public class ProductProcessor {
-  public static void main(String[] args) {
-    String inputFilePath = "data/products.csv";
-    String outputFilePath = "data/transformed_products.csv";
 
-    try (BufferedReader reader = new BufferedReader(new FileReader(inputFilePath))) {
-      String line;
-      StringBuilder output = new StringBuilder();
-      output.append("ProductID,Name,Price,Category,PriceRange\n");
+    public static void main(String[] args) {
+        String inputFilePath = "data/products.csv";
+        String outputFilePath = "data/transformed_products.csv";
 
-      reader.readLine();
+        try (BufferedReader reader = new BufferedReader(new FileReader(inputFilePath))) {
+            String line;
+            StringBuilder output = new StringBuilder();
+            output.append("ProductID,Name,Price,Category,PriceRange\n"); 
 
-      while ((line = reader.readLine()) != null) {
-        String[] data = line.split(",");
-        String productId = data[0];
-        String productName = data[1].toUpperCase();
-        double price = Double.parseDouble(data[2]);
-        String category = data[3];
+            
+            reader.readLine();
 
-        if (category.equals("Electronics")) {
-          price *= 0.9;
-          category = (price > 500) ? "Premium Electronics" : category;
+            while ((line = reader.readLine()) != null) {
+                String[] data = line.split(",");
+                String productId = data[0];
+                String productName = data[1].toUpperCase();
+
+                double price = 0.0;
+                try {
+                    price = Double.parseDouble(data[2]);
+                } catch (NumberFormatException e) {
+                    System.err.println("Invalid price value for product " + productId + ": " + data[2]);
+                    continue; 
+                }
+
+                String category = data[3];
+
+                
+                if (category.equals("Electronics")) {
+                    price *= 0.9; 
+                    category = (price > 500) ? "Premium Electronics" : category;
+                }
+
+                // Determine PriceRange
+                String priceRange;
+                if (price <= 10) {
+                    priceRange = "Low";
+                } else if (price <= 100) {
+                    priceRange = "Medium";
+                } else if (price <= 500) {
+                    priceRange = "High";
+                } else {
+                    priceRange = "Premium";
+                }
+
+                
+                DecimalFormat df = new DecimalFormat("#0.00");
+                price = Double.parseDouble(df.format(price));
+
+                output.append(productId + "," + productName + "," + price + "," + category + "," + priceRange + "\n");
+            }
+
+            
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(outputFilePath))) {
+                writer.write(output.toString());
+            } catch (IOException e) {
+                System.err.println("Error writing to output file: " + e.getMessage());
+            }
+
+        } catch (IOException e) {
+            System.err.println("Error reading input file: " + e.getMessage());
         }
-
-        String priceRange;
-        if (price <= 10) {
-          priceRange = "Low";
-        } else if (price <= 100) {
-          priceRange = "Medium";
-        } else if (price <= 500) {
-          priceRange = "High";
-        } else {
-            priceRange = "Premium";
-        }
-
-        DecimalFormat df = new DecimalFormat("#0.00");
-
+    }
+}
