@@ -32,15 +32,15 @@ public class ETLPipeline {
         List<String[]> records = new ArrayList<>();
         try (BufferedReader reader = Files.newBufferedReader(Paths.get(filePath))) {
             String line;
-            reader.readLine(); // Skip header
+            reader.readLine(); 
             while ((line = reader.readLine()) != null) {
-                line = line.trim(); // Remove leading/trailing spaces
-                if (line.isEmpty()) {  // Ignore empty lines
+                line = line.trim(); 
+                if (line.isEmpty()) {  
                     continue;
                 }
                 System.out.println("Processing line: " + line);
-                String[] fields = line.split(",", -1); // Preserve empty fields
-                if (fields.length == 4) {  // Ensure valid row
+                String[] fields = line.split(",", -1); 
+                if (fields.length == 4) {  
                     records.add(fields);
                 } else {
                     System.err.println("Warning: Skipping malformed line -> " + line);
@@ -55,26 +55,26 @@ public class ETLPipeline {
 
     private static List<String[]> transform(List<String[]> products) {
         List<String[]> transformed = new ArrayList<>();
-        transformed.add(new String[]{"ProductID", "Name", "Price", "Category", "PriceRange"}); // Header
+        transformed.add(new String[]{"ProductID", "Name", "Price", "Category", "PriceRange"}); 
         
         for (String[] product : products) {
             String id = product[0];
-            String name = product[1].toUpperCase(); // Convert name to uppercase
+            String name = product[1].toUpperCase(); 
             double price = Double.parseDouble(product[2]);
             String category = product[3];
             
-            // Apply 10% discount for Electronics, unless Premium Electronics
+            
             if (category.equals("Electronics") && price <= 500) {
                 price *= 0.9;
-                price = Math.round(price * 100.0) / 100.0; // Round to 2 decimal places
+                price = Math.round(price * 100.0) / 100.0; 
             }
 
-            // Category Adjustment
+            
             if (category.equals("Electronics") && price > 500) {
                 category = "Premium Electronics";
             }
             
-            // Determine Price Range
+            
             String priceRange = getPriceRange(price);
             
             transformed.add(new String[]{id, name, String.valueOf(price), category, priceRange});
