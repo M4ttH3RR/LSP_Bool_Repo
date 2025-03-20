@@ -9,7 +9,7 @@ public class VotingMachine {
      * It tests the VotingMachine implementation.
      */
     public static void main(String[] args) {
-        // Create a new voting machine
+        /** Create a new voting machine */
         VotingMachine vm = new VotingMachine();
  
         /** Adding candidates */
