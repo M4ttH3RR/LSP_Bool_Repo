@@ -1,4 +1,5 @@
 package org.howard.edu.lsp.midterm.question3;
+/** sources https://codewithcurious.com/projects/online-voting-system-using-java/ */
 /**
  * Driver class to test the functionality of the VotingMachine class.
  * This class demonstrates the creation and usage of a VotingMachine.
