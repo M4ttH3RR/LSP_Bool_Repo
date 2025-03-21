@@ -1,0 +1,58 @@
+CRC Analysis of Library System
+
+Book
+It is a class representing the books in the library as separate entities. It is essential because the books are the primary objects being manipulated within the library system. Each book needs to keep its own information and availability status.
+
+Member
+This class is employed to describe library members that are borrowing books. It's needed to track who is eligible to borrow books, how many books they own, and what books they've borrowed.
+
+Librarian
+This class is employed to describe staff members that work on the library collection. It's needed to do administrative tasks such as adding or subtracting books and printing out reports on the state of the library.
+
+Library
+This class is the generic library system that maintains the book collection. It's required as a reference point for maintaining the inventory of books and for managing interaction between books, members, and librarians.
+
+Responsibilities
+
+Book
+- Maintain and provide access to information of the book (title, author, ISBN)
+- Track and maintain its own status as available or not
+- Provide methods to borrow and return the book
+
+Member
+- Store and make member information (name, ID, contact) accessible
+- Track and limit the number of borrowed books (up to 3)
+- Manage the list of books currently borrowed
+- Borrow and return books
+
+Librarian
+- Add new books to library collection
+- Remove old or lost books from collection
+- View the list of available books
+- View which books are currently borrowed and by whom
+
+Library
+- Maintain the whole collection of books
+- Provide means to search for books by various parameters
+- Maintain available and borrowed books
+- Make borrowing and returning simple
+
+Collaborators
+
+Book
+Library: Book and Library cooperate because Library needs to know the status of each Book in order to maintain an updated number of available and borrowed books.
+Member: Members collaborate with Books when borrowing or returning, because the Book has to inform about its availability state and the Member has to inform about their set of borrowed books.
+
+Member
+Book: Members collaborate with Books to borrow and return them and keep track of which specific books they have.
+Library: Members collaborate with the Library when searching for books to borrow and checking out and returning books.
+
+Librarian
+Library: Librarians collaborate with the Library to add or remove books from the library and to inform about the library's status.
+Book: Librarians collaborate with Books when adding new books or removing old books from the library.
+Member: Librarians may need to search for Member data in order to understand who borrowed specific books.
+
+Library
+Book: The Library has a collection of Books, tracking their availability and searching them.
+Member: The Library handles Members to manage book borrowing and returns, enforcing borrowing limits.
+Librarian: The Library provides Librarians with the tools for managing the collection and retrieving data on books and members.
